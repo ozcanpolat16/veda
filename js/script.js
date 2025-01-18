@@ -19,26 +19,22 @@ class MessageController {
         setInterval(() => this.checkTime(), this.checkInterval);
     }
 
-    // ... diğer kodlar ...
+    async checkTime() {
+        try {
+            const targetDate = new Date('2025-01-18T08:00:00+03:00');
+            const currentDate = new Date();
+            const remainingTime = targetDate - currentDate;
 
-async checkTime() {
-    try {
-        const targetDate = new Date('2025-01-18T08:00:00+03:00'); // Saat 08:00 olarak güncellendi
-        const currentDate = new Date();
-        const remainingTime = targetDate - currentDate;
-
-        if (remainingTime <= 0 && !this.messageShown) {
-            this.showFarewellMessage();
-            this.messageShown = true;
-        } else if (remainingTime > 0) {
-            this.updateRemainingTime(remainingTime);
+            if (remainingTime <= 0 && !this.messageShown) {
+                this.showFarewellMessage();
+                this.messageShown = true;
+            } else if (remainingTime > 0) {
+                this.updateRemainingTime(remainingTime);
+            }
+        } catch (error) {
+            console.error('Zaman kontrolünde hata:', error);
         }
-    } catch (error) {
-        console.error('Zaman kontrolünde hata:', error);
     }
-}
-
-// ... diğer kodlar ...
 
     showFarewellMessage() {
         this.waitingMessage.style.opacity = '0';
@@ -85,6 +81,7 @@ async checkTime() {
     }
 }
 
+// Sayfa yüklendiğinde MessageController'ı başlat
 document.addEventListener('DOMContentLoaded', () => {
     new MessageController();
 });
