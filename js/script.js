@@ -45,7 +45,7 @@ class MessageController {
         const remainingTextElement = this.waitingMessage.querySelector('.remaining-text');
         
         if (remainingTextElement) {
-            let message = 'Son mektubumu okumanıza...';
+            let message = 'Vedana hazır mısın?';
             if (days > 0) message += `\n${days} gün`;
             if (hours > 0) message += ` ${hours} saat`;
             if (minutes > 0) message += ` ${minutes} dakika`;
