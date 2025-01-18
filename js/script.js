@@ -21,7 +21,7 @@ class MessageController {
 
     async checkTime() {
         try {
-            const targetDate = new Date('2025-01-18T08:00:00+03:00');
+            const targetDate = new Date('2025-02-10T14:00:00+03:00');
             const currentDate = new Date();
             const remainingTime = targetDate - currentDate;
 
@@ -33,6 +33,25 @@ class MessageController {
             }
         } catch (error) {
             console.error('Zaman kontrolünde hata:', error);
+        }
+    }
+
+    updateRemainingTime(remainingTime) {
+        const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+        const remainingTextElement = this.waitingMessage.querySelector('.remaining-text');
+        
+        if (remainingTextElement) {
+            let message = 'Son mektubumu okumanıza...';
+            if (days > 0) message += `\n${days} gün`;
+            if (hours > 0) message += ` ${hours} saat`;
+            if (minutes > 0) message += ` ${minutes} dakika`;
+            message += ` ${seconds} saniye kaldı`;
+
+            remainingTextElement.innerHTML = message.split('\n').join('<br>');
         }
     }
 
@@ -60,28 +79,8 @@ class MessageController {
             setTimeout(() => p.classList.add('visible'), index * 1000);
         });
     }
-
-    updateRemainingTime(remainingTime) {
-        const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-        const remainingTextElement = this.waitingMessage.querySelector('.remaining-text');
-        
-        if (remainingTextElement) {
-            let message = 'Son mektubumu okumanıza...';
-            if (days > 0) message += `\n${days} gün`;
-            if (hours > 0) message += ` ${hours} saat`;
-            if (minutes > 0) message += ` ${minutes} dakika`;
-            message += ` ${seconds} saniye kaldı`;
-
-            remainingTextElement.innerHTML = message.split('\n').join('<br>');
-        }
-    }
 }
 
-// Sayfa yüklendiğinde MessageController'ı başlat
 document.addEventListener('DOMContentLoaded', () => {
     new MessageController();
 });
